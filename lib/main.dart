@@ -1,5 +1,5 @@
 import 'dart:io'; // ファイルのやりとり
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart'; // 日付整える
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart'; // ファイルのパス整える
@@ -10,12 +10,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'login.dart';
 
 void main()  async{ // firebaseの初期設定
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyAIApp());
 }
+
 class MyAIApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,17 +27,22 @@ class MyAIApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainForm(),
+      home: LoginPage(),
     );
   }
 }
 
 class MainForm extends StatefulWidget {
+  MainForm(this.user);
+
+  final User user;
+
   @override
   _MainFormState createState() => _MainFormState();
 }
 
 class _MainFormState extends State<MainForm> {
+
   String _name =""; // ユーザーの名前を入れる変数
   String _processingMessage = "";
   final FaceDetector _faceDetector = FirebaseVision.instance.faceDetector(
@@ -63,15 +70,15 @@ class _MainFormState extends State<MainForm> {
       // facesに格納、
       List<Face> faces = await _faceDetector.processImage(visionImage);
       // 画像に顔が写ってると処理
-      if(faces.length > 0){
+      if(faces.length >= 0){
         // クラウド上に保存する際のパス、uuidでダブらないようにv1で時刻に基づくuuid basenameは元のファイル名
         String imagePath = "/images/" + Uuid().v1() + basename(pickedImage.path);
         // イメージパスを使ってストレージのリファレンスを作る、それを使って保存
-        StorageReference ref = FirebaseStorage.instance.ref().child(imagePath);
+        Reference ref = FirebaseStorage.instance.ref().child(imagePath);
         // putFileでリファレンス・ファイルを指定してクラウド上に行うことができる。
-        final StorageTaskSnapshot storedImage = await ref.putFile(imageFile).onComplete;
+        final TaskSnapshot storedImage = await ref.putFile(imageFile);
         // 非同期 上の処理が終わってから下の行 storedImageで保存された画像の情報を取得
-        if(storedImage.error == null){
+        if(storedImage == null){
           // 画像の表示をするためにURLが必要、storedImageでURL取得、時間がかかるので非同期
           final String downloadUrl = await storedImage.ref.getDownloadURL();
           // 非同期 上の処理が終わってから下の処理
@@ -118,7 +125,7 @@ class _MainFormState extends State<MainForm> {
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-            BottomNavigationBarItem(icon: Icon(Icons.photo_album), title: Text('Album')),
+            BottomNavigationBarItem(icon: Icon(Icons.timeline), title: Text('Album'),),
             BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text('Chat')),
           ],
           fixedColor: Colors.blueAccent,
@@ -241,7 +248,7 @@ class TimelinePage extends StatelessWidget {
           ),
           onTap: (){
             Navigator.push(
-                context,                               // URLを渡しているimagepageに
+                context,                               // URLを渡しているImagePageに
                 MaterialPageRoute(builder: (context) => ImagePage(_data["image_url"]),)
             );
           },

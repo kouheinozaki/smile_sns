@@ -29,14 +29,16 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  firebase_core: ^0.5.0  # 追記
-  firebase_ml_vision: ^0.9.6+2  # 追記
-  firebase_storage: ^4.0.0  # 追記
-  cloud_firestore: ^0.14.0+1  # 追記
-  image_picker: ^0.6.0  # 追記
+  firebase_auth: ^1.0.1
+  firebase_core: ^1.0.2  # 追記
+  firebase_ml_vision: ^0.12.0  # 追記
+  cloud_firestore: ^1.0.1  # 追記
+  intl: ^0.17.0  # 追記
+  image_picker: ^0.7.0  # 追記
   camera: ^0.5.6+1  # 追記
   uuid: ^2.2.2  # 追記
-  intl: ^0.16.1  # 追記
+  firebase_storage: ^8.0.0  # 追記
+
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "179350248819",
+    "project_id": "smile-sns-c24ef",
+    "storage_bucket": "smile-sns-c24ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179350248819:android:a64f013116220f5e96f906",
+        "android_client_info": {
+          "package_name": "jp.co.saberkonboi.smile_sns"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179350248819-a0911r4a21j29ssqgnn9a83gcvrda5uh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6hKhsTejzMRbTJJKQKkzeX1Rz9VSHFc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179350248819-a0911r4a21j29ssqgnn9a83gcvrda5uh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "179350248819-tbaoe9gik2nohdov7v6r0iin2stkjj3q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.co.saberkonboi.smileSns"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
